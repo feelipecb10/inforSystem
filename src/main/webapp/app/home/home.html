@@ -1,41 +1,128 @@
-<div ng-cloak>
-    <div class="row">
-        <div class="col-md-4">
-            <span class="hipster img-responsive img-rounded"></span>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h1>Cadastro de Usuário</h1>
+
+        <div class="alert alert-success" ng-show="vm.success">
+            <strong>Cadastro Salvo!</strong> 
         </div>
-        <div class="col-md-8">
-            <h1>Welcome, Java Hipster!</h1>
-            <p class="lead">This is your homepage</p>
 
-            <div ng-switch="vm.isAuthenticated()">
-                <div class="alert alert-success" ng-switch-when="true">
-                    You are logged in as user "{{vm.account.login}}".
+        <div class="alert alert-danger" ng-show="vm.error">
+            <strong>Erro no Cadastro</strong> Por favor tente novamente!
+        </div>
+
+        <div class="alert alert-danger" ng-show="vm.errorUserExists">
+            <strong>Login já existe</strong> Por favor tente outro!
+        </div>
+
+        <div class="alert alert-danger" ng-show="vm.errorEmailExists">
+            <strong>Email já existe</strong> Por favor tente outro!
+        </div>
+
+        <div class="alert alert-danger" ng-show="vm.doNotMatch">
+           Senha e Senha Confirmação não coincidem!
+        </div>
+    </div>
+    <div class="col-md-8 col-md-offset-2">
+        <form ng-show="!vm.success" name="form" role="form" novalidate ng-submit="vm.register()" show-validation>
+
+
+            <div class="form-group">
+                <label class="control-label" for="firstname">Nome</label>
+                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Digite seu Nome" ng-model="vm.firstName" required>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label" for="login">Login</label>
+                <input type="text" class="form-control" id="login" name="login" placeholder="Digite seu Login"
+                       ng-model="vm.registerAccount.login" ng-minlength=1 ng-maxlength=50 ng-pattern="/^[_'.@A-Za-z0-9-]*$/" required>
+                <div ng-show="form.login.$dirty && form.login.$invalid">
+                    <p class="help-block"
+                           ng-show="form.login.$error.required">
+                       Login é obrigatório.
+                    </p>
+                    <p class="help-block"
+                           ng-show="form.login.$error.minlength">
+                        Login deve ter no minimo um caractere.
+                    </p>
+                    <p class="help-block"
+                           ng-show="form.login.$error.maxlength">
+                        Login deve ter no máximo 50 caracteres.
+                    </p>
+                    <p class="help-block"
+                           ng-show="form.login.$error.pattern">                        
+                            Seu nome de usuário pode conter apenas letras e dígitos.
+                </p>
                 </div>
-
-                <div class="alert alert-warning" ng-switch-when="false">
-                    If you want to <a class="alert-link" href="" ng-click="vm.login()">sign in</a>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu Email"
+                       ng-model="vm.registerAccount.email" ng-minlength=5 ng-maxlength=100 required>
+                <div ng-show="form.email.$dirty && form.email.$invalid">
+                    <p class="help-block"
+                           ng-show="form.email.$error.required">
+                        Email é obrigatório.
+                    </p>
+                    <p class="help-block"
+                           ng-show="form.email.$error.email">
+                        Email inválido.
+                    </p>
+                    <p class="help-block"
+                           ng-show="form.email.$error.minlength">
+                        Email deve conter no minimo caracteres.
+                    </p>
+                    <p class="help-block"
+                           ng-show="form.email.$error.maxlength">
+                        Email deve conter no máximo 100 caracteres.
+                    </p>
                 </div>
-
-                <div class="alert alert-warning" ng-switch-when="false">
-                    You don't have an account yet? <a class="alert-link" ui-sref="register">Register a new account</a>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="password">Nova Senha</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Digite sua Nova Senha"
+                       ng-model="vm.registerAccount.password" ng-minlength=4 ng-maxlength=50 required>
+                <div ng-show="form.password.$dirty && form.password.$invalid">
+                    <p class="help-block"
+                           ng-show="form.password.$error.required">
+                       Senha é obrigatório.
+                    </p>
+                    <p class="help-block"
+                           ng-show="form.password.$error.minlength">
+                        Senha deve conter no minimo 4 caracteres.
+                    </p>
+                    <p class="help-block"
+                           ng-show="form.password.$error.maxlength">
+                        Senha deve conter no máximo 50 caracteres.
+                    </p>
+                </div>
+                <password-strength-bar password-to-check="vm.registerAccount.password"></password-strength-bar>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="confirmPassword">Senha Confirmação</label>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirme sua Nova Senha"
+                       ng-model="vm.confirmPassword" ng-minlength=4 ng-maxlength=50 required>
+                <div ng-show="form.confirmPassword.$dirty && form.confirmPassword.$invalid">
+                    <p class="help-block"
+                           ng-show="form.confirmPassword.$error.required">
+                        Senha Confirmação é obrigatório.
+                    </p>
+                    <p class="help-block"
+                           ng-show="form.confirmPassword.$error.minlength">
+                           Senha Confirmação deve conter no minimo 4 caracteres.
+                    </p>
+                    <p class="help-block"
+                           ng-show="form.confirmPassword.$error.maxlength">
+                           Senha Confirmação deve conter no máximo 50 caracteres.
+                    </p>
                 </div>
             </div>
 
-            <p>
-                If you have any question on JHipster:
-            </p>
-
-            <ul>
-                <li><a href="http://www.jhipster.tech/" target="_blank" rel="noopener">JHipster homepage</a></li>
-                <li><a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener">JHipster on Stack Overflow</a></li>
-                <li><a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener">JHipster bug tracker</a></li>
-                <li><a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener">JHipster public chat room</a></li>
-                <li><a href="https://twitter.com/java_hipster" target="_blank" rel="noopener">follow @java_hipster on Twitter</a></li>
-            </ul>
-
-            <p>
-             <span>If you like JHipster, don't forget to give us a star on </span>&nbsp;<a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener">GitHub</a>!
-            </p>
+            <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" style="width: 100%;">Cadastrar</button>
+        </form>
+        <p></p>
+        <div class="alert alert-warning" style="width: 100%; text-align: center;">
+            Se você já for Cadastrado <a class="alert-link" href="" ng-click="vm.login()">ENTRE AQUI</a>
         </div>
     </div>
 </div>

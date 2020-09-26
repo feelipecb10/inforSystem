@@ -1,0 +1,145 @@
+<div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading" style="display: flex;">
+
+            <button ui-sref="home" class="btn btn-success">
+                <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span>Voltar</span>
+            </button>        
+                <h4 style="margin-left: 35%; font-weight: bold;">Clientes Cadastrados</h4>
+        </div>     
+
+    <div class="panel-body">
+            
+        <form style="margin-top: 15px;">
+
+            <div class="col-lg-2 col-md-3 col-sm-12">
+                <label class="form-label">Campo:</label>
+                <select ng-model="vm.campoConsulta" class="form-control" required>
+                    <option value="NOME">NOME</option>
+                    <option value="PROFISSAO">PROFISSÃO</option>
+                    <option value="UF">UF</option>
+                    <option value="CIDADE">CIDADE</option>
+                    <option value="BAIRRO">BAIRRO</option>
+                </select>
+            </div>
+        
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">Valor:</label>
+                <input type="text" class="form-control" ng-model="vm.valorConsulta" required />
+            </div>
+        
+            <div class="col-lg-2 col-md-2 col-sm-12">
+                <label class="form-label">Limit:</label>
+                <select ng-model="vm.limitConsulta" class="form-control" required>
+                    <option value="25">25 (Padrão)</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="150">150</option>
+                    <option value="200">200</option>
+                </select>
+            </div>
+        
+            <div class="col-lg-2 col-md-2 col-sm-12 ">
+                </br>
+                <button type="submit" class="btn btn-success" ng-click="vm.filtrarCliente(vm.campoConsulta, vm.valorConsulta, vm.limitConsulta)">Filtrar</button>
+            </div>
+        
+        </form>   
+    
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid" style="margin-top: 100px;">
+        <!--<div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="cliente.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span >
+                        Cadastrar Novo Cliente
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>-->
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="nome"><span>Nome</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="cpf"><span>Cpf</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="cnpj"><span>Cnpj</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="email"><span>Email</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="telefone"><span>Telefone</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="cep"><span>Cep</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="uf"><span>Uf</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="cidade"><span>Cidade</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="bairro"><span>Bairro</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="numero"><span>Numero</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="profissao"><span>Profissao</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th><button class="btn btn-primary" ui-sref="cliente.new" >
+                        <span class="glyphicon glyphicon-plus"></span>
+                        <span >
+                            Cadastrar Novo
+                        </span>
+                    </button></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="cliente in vm.clientes track by cliente.id">
+                    <td><a ui-sref="cliente-detail({id:cliente.id})">{{cliente.id}}</a></td>
+                    <td>{{cliente.nome}}</td>
+                    <td>{{cliente.cpf}}</td>
+                    <td>{{cliente.cnpj}}</td>
+                    <td>{{cliente.email}}</td>
+                    <td>{{cliente.telefone}}</td>
+                    <td>{{cliente.cep}}</td>
+                    <td>{{cliente.uf}}</td>
+                    <td>{{cliente.cidade}}</td>
+                    <td>{{cliente.bairro}}</td>
+                    <td>{{cliente.numero}}</td>
+                    <td>{{cliente.profissao}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="cliente-detail({id:cliente.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="cliente.edit({id:cliente.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="cliente.delete({id:cliente.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+    </div>
+    <uib-pager total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.transition()"></uib-pager>
+        </div>
+
+
+
+
+    </div>
+    
+
+
+
+
+
+
+</div>
